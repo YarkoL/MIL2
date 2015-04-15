@@ -1,0 +1,41 @@
+<component>
+  <componentSchemaVersion>1.3</componentSchemaVersion>
+  <componentID/>
+  <componentContent>vmware/vmis-component</componentContent>
+  <componentFormat>tar</componentFormat>
+  <payload>vmware-tools-windows-9.9.2-2496824.x86_64.component</payload>
+  <buildDate>2015-02-06T17:12:06.100264-08:00</buildDate>
+  <packedSize>0</packedSize>
+  <payloadSize>0</payloadSize>
+  <checksum>
+    <checksumType/>
+    <checksum/>
+  </checksum>
+  <product>
+    <productId>tools-windows</productId>
+    <version>9.9.2-2496824</version>
+    <arch>x86_64</arch>
+    <buildNumber>2496824</buildNumber>
+  </product>
+  <visibleTo>
+    <product>
+      <buildNumber>2496824</buildNumber>
+      <version>7.1.0</version>
+      <arch>x86_64</arch>
+      <productId>player-linux</productId>
+    </product>
+  </visibleTo>
+  <preInstall>
+    <adminInstall>true</adminInstall>
+  </preInstall>
+  <postInstall/>
+  <requirementList/>
+  <customList/>
+  <dependsOn/>
+  <installerList>
+    <installer mimeType="vmware/vmis-*">
+      <componentName>vmware-tools-windows</componentName>
+      <componentVersion>9.9.2-2496824</componentVersion>
+    </installer>
+  </installerList>
+</component>
