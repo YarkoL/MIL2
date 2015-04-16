@@ -422,7 +422,7 @@ static bool ProcessOffChain(
           }
         PushOffChain(
             DelegateManager::other(key),
-            is_delegate? "funded-sender-bind" : "funded-delegate-bind" ,
+            is_delegate? "funded-delegate-bind" : "funded-sender-bind",
             funded_tx
             );
          return true;
@@ -438,8 +438,8 @@ static bool ProcessOffChain(
         if (!ConfirmedTransactionSubmit(tx, confirmTx)) {
             return false;
         }
-
-        if (DelegateManager::isDelegate(key)) {
+        bool is_delegate = DelegateManager::isDelegate(key);
+        if (is_delegate) {
             //DELRET 2 store sender bind tx id
             uint256 const sender_funded_tx_hash = tx.GetHash();
             uint64_t sender_address_bind_nonce;
@@ -463,7 +463,9 @@ static bool ProcessOffChain(
 
         }
 
-        PushOffChain(others_address, "confirm-sender-bind", confirmTx);
+        PushOffChain(others_address,
+                     is_delegate ? "confirm-sender-bind" : "confirm-delegate-bind",
+                     confirmTx);
         return true;
     } else if ("confirm-sender-bind" == name || "confirm-delegate-bind" == name ) {
 

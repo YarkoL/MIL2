@@ -2230,7 +2230,7 @@ void InitializeBind(
     }
 
     try {
-        PushOffChain(other, is_delegate? "to-delegate" : "to-sender", rawTx);
+        PushOffChain(other, is_delegate ? "to-sender" : "to-delegate", rawTx);
     } catch (std::exception& e) {
         PrintExceptionContinue(&e, " PushOffChain(to-delegate)");
     }
