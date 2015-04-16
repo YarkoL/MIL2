@@ -137,6 +137,7 @@ OBJS= \
     obj/crypto_curve25519.o \
     obj/crypto_format.o \
     obj/curve25519-donna.o \
+    obj/delegatemanager.o \
     obj/di_ops.o \
     obj/directory.o \
     obj/dirserv.o \
@@ -227,7 +228,7 @@ OBJS= \
     obj/scrypt-arm.o \
     obj/scrypt-x86.o \
     obj/scrypt-x86_64.o \
-    obj/delegatemanager.o \   
+    
 
 all: MillenniumCoind
 
