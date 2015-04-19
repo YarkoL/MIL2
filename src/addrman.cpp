@@ -352,7 +352,7 @@ bool CAddrMan::Add_(const CAddress &addr, const CNetAddr& source, int64_t nTimeP
         pinfo = Create(addr, source, &nId);
         pinfo->advertised_balance = addr.advertised_balance;
         pinfo->nTime = max((int64_t)0, (int64_t)pinfo->nTime - nTimePenalty);
-//        printf("Added %s [nTime=%fhr]\n", pinfo->ToString().c_str(), (GetAdjustedTime() - pinfo->nTime) / 3600.0);
+        printf("Added %s [nTime=%fhr]\n", pinfo->ToString().c_str(), (GetAdjustedTime() - pinfo->nTime) / 3600.0);
         nNew++;
         fNew = true;
     }
@@ -497,7 +497,7 @@ void CAddrMan::GetAddr_(std::vector<CAddress> &vAddr)
     int nNodes = ADDRMAN_GETADDR_MAX_PCT*vRandom.size()/100;
     if (nNodes > ADDRMAN_GETADDR_MAX)
         nNodes = ADDRMAN_GETADDR_MAX;
-    else if ((fTestNet /*|| fTestPow */)&& nNodes < 1)  //when testing with small number of nodes
+    else if ((fTestNet || fTestPow )&& nNodes < 1)  //when testing with small number of nodes
         nNodes = vRandom.size();
     // perform a random shuffle over the first nNodes elements of vRandom (selecting from all)
     for (int n = 0; n<nNodes; n++)
