@@ -54,6 +54,7 @@ public:
 
     static bool setDestination(std::vector<unsigned char> key, CScript destination);
     static bool keyExists(std::vector<unsigned char> key);
+    static bool getKeyFromOther(CNetAddr &addr, std::vector<unsigned char> &key);
 };
 
 #endif // DELEGATEMANAGER_H

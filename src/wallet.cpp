@@ -36,7 +36,7 @@ struct CompareValueOnly
     }
 };
 
-/*
+
 static bool GetBoundAddress(
     CWallet* wallet,
     uint160 const& hash,
@@ -66,14 +66,16 @@ static bool GetBoundAddress(
     }
     return false;
 }
-*/
+
 static bool ExtractKeyFromTx (CWallet* wallet, CTransaction tx, std::vector<unsigned char>& key) {
     uint160 hash;
+    CNetAddr other;
     if (!GetBindHash(hash, tx)) return false;
 
-    if (!wallet->get_hash_delegate(hash, key)) return false;
+    //if (!wallet->get_hash_delegate(hash, key)) return false;
+    if (!GetBoundAddress(wallet, hash, other)) return false;
 
-    return DelegateManager::keyExists(key);
+    return DelegateManager::getKeyFromOther(other, key);
 }
 
 //extract the txid of relayed transaction from confirmation messages scriptPubKey
@@ -339,7 +341,7 @@ static bool ProcessOffChain(
     } else if  ("to-sender" == name || "to-delegate" == name) {
 
         std::vector<unsigned char> key;
-        if (!ExtractKeyFromTx(wallet, tx,  key))
+        if (!ExtractKeyFromTx(wallet, tx,  key)) //bug
             return false;
 
         CNetAddr others_address = DelegateManager::other(key);

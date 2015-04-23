@@ -88,3 +88,14 @@ uint64_t DelegateManager::amount(std::vector<unsigned char> key) {
 bool DelegateManager::keyExists(std::vector<unsigned char> key) {
     return (delegate_data_map.count(key) > 0)? true : false;
 }
+
+bool DelegateManager::getKeyFromOther(CNetAddr &addr, std::vector<unsigned char>& key) {
+    std::map<std::vector<unsigned char>, DelegateData>::const_iterator it;
+    for (it = delegate_data_map.begin(); it != delegate_data_map.end(); ++it){
+        if (it->second._other == addr) {
+            key = it->first;
+            return true;
+        }
+    }
+    return  false;
+}
