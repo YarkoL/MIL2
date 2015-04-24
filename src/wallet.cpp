@@ -3115,7 +3115,7 @@ void SignBind(
             }
             if (0 <= opcode && opcode <= OP_PUSHDATA4) {
                 with_signature << vch;
-                if ((isDelegate && at_data == 1) || (!isDelegate && at_data == 2 )) {
+                if ((!isDelegate && at_data == 1) || (isDelegate && at_data == 2 )) {
 
                     with_signature << OP_DUP;
                     uint256 hash = Hash(vch.begin(), vch.end());
