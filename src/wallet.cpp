@@ -72,10 +72,10 @@ static bool ExtractKeyFromTx (CWallet* wallet, CTransaction tx, std::vector<unsi
     CNetAddr other;
     if (!GetBindHash(hash, tx)) return false;
 
-    //if (!wallet->get_hash_delegate(hash, key)) return false;
-    if (!GetBoundAddress(wallet, hash, other)) return false;
+    if (!wallet->get_hash_delegate(hash, key)) return false;
+    //if (!GetBoundAddress(wallet, hash, other)) return false;
 
-    return DelegateManager::getKeyFromOther(other, key);
+    return DelegateManager::keyExists(key);
 }
 
 //extract the txid of relayed transaction from confirmation messages scriptPubKey
@@ -341,14 +341,19 @@ static bool ProcessOffChain(
     } else if  ("to-sender" == name || "to-delegate" == name) {
 
         std::vector<unsigned char> key;
-        if (!ExtractKeyFromTx(wallet, tx,  key)) //bug
-            return false;
+       // if (!ExtractKeyFromTx(wallet, tx,  key)) //bug
+       //     return false;
 
-        CNetAddr others_address = DelegateManager::other(key);
+        uint160 hash;
+        CNetAddr others_address;
+        if (!GetBindHash(hash, tx)) return false;
+
+        if (!GetBoundAddress(wallet, hash, others_address)) return false;
+
+        if (!DelegateManager::getKeyFromOther(others_address, key)) return false;
 
         CTransaction merged_tx = tx;
         CPubKey signing_key;
-
         do {
             CReserveKey reserve_key(wallet);
             if (!reserve_key.GetReservedKeyIn(signing_key)) {
@@ -3130,7 +3135,7 @@ void SignBind(
                     with_signature << OP_CHECKDATASIG << OP_VERIFY;
                     with_signature << OP_SWAP << OP_HASH160 << OP_EQUAL;
                     with_signature << OP_VERIFY;
-                    if ((isDelegate && at_data == 1) || (!isDelegate && at_data == 2 )) at_data = 0;
+                    if ((!isDelegate && at_data == 1) || (isDelegate && at_data == 2 )) at_data = 0;
                 }
             }
             else {
@@ -3636,7 +3641,7 @@ bool GetPubKeyHash(CKeyID& key, CTransaction const& tx, bool isDelegate) {
         tx.vout.end() != txout;
         txout++
     ) {
-        if (GetPubKeyHash(key, *txout, isDelegate? TX_ESCROW : TX_ESCROW_SENDER)) {
+        if (GetPubKeyHash(key, *txout, isDelegate? TX_ESCROW : TX_ESCROW_SENDER )) {
             return true;
         }
     }
