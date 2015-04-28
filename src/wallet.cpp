@@ -69,12 +69,14 @@ static bool GetBoundAddress(
 
 static bool ExtractKeyFromTx (CWallet* wallet, CTransaction tx, std::vector<unsigned char>& key) {
     uint160 hash;
-    CNetAddr other;
+    CNetAddr others_address;
     if (!GetBindHash(hash, tx)) return false;
 
-    if (!wallet->get_hash_delegate(hash, key)) return false;
-    //if (!GetBoundAddress(wallet, hash, other)) return false;
-
+    if (!wallet->get_hash_delegate(hash, key)) {
+        if (!GetBoundAddress(wallet, hash, others_address))
+            return false;
+        return DelegateManager::getKeyFromOther(others_address, key);
+    }
     return DelegateManager::keyExists(key);
 }
 
