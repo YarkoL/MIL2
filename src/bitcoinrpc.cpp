@@ -124,13 +124,13 @@ std::string HexBits(unsigned int nBits)
 // Utilities: convert hex-encoded Values
 // (throws error if not hex).
 //
-uint256 ParseHashV(const Value& v, string strName)
+uint256 ParseHashV(const Value& v, string err)
 {
     string strHex;
     if (v.type() == str_type)
         strHex = v.get_str();
     if (!IsHex(strHex)) // Note: IsHex("") is false
-        throw JSONRPCError(RPC_INVALID_PARAMETER, strName+" must be hexadecimal string (not '"+strHex+"')");
+        err = "Error: Parameter must be hexadecimal string (was '"+strHex+"')";
     uint256 result;
     result.SetHex(strHex);
     return result;

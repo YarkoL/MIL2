@@ -139,7 +139,7 @@ extern void EnsureWalletIsUnlocked();
 // Utilities: convert hex-encoded Values
 // (throws error if not hex).
 //
-extern uint256 ParseHashV(const json_spirit::Value& v, std::string strName);
+extern uint256 ParseHashV(const json_spirit::Value& v, std::string err);
 extern uint256 ParseHashO(const json_spirit::Object& o, std::string strKey);
 extern std::vector<unsigned char> ParseHexV(const json_spirit::Value& v, std::string strName);
 extern std::vector<unsigned char> ParseHexO(const json_spirit::Object& o, std::string strKey); 
