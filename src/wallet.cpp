@@ -3643,7 +3643,7 @@ bool GetPubKeyHash(CKeyID& key, CTransaction const& tx, bool isDelegate) {
         tx.vout.end() != txout;
         txout++
     ) {
-        if (GetPubKeyHash(key, *txout, isDelegate? TX_ESCROW : TX_ESCROW_SENDER )) {
+        if (GetPubKeyHash(key, *txout, isDelegate? TX_ESCROW_SENDER : TX_ESCROW )) {
             return true;
         }
     }
